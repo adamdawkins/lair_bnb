@@ -11,6 +11,25 @@
   </head>
 
   <body>
+
+    <header>
+    <h1>LairBnB</h1>
+    
+    <ul>
+      <% if user_signed_in? %>
+        <li><%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete } %></li>
+      <% else %>
+        <li><%= link_to 'Register', new_user_registration_path %> or <%= link_to 'Sign in', new_user_session_path %></li>
+      <% end %>
+    </ul>
+  </header>
+
+  <% if notice %>
+  <div>
+    <%= notice %>
+  <div>
+  <% end %>
+  
     <%= yield %>
   </body>
 </html>
