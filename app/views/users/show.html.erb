@@ -1,0 +1,6 @@
+<h1><%= @user.first_name %> <%= @user.last_name %></h1>
+<%= image_tag(@user.profile) %>
+<p><%= @user.bio %></p>
+
+<%= @user.is_superhost ? '<i class="fa-solid fa-medal"></i>'.html_safe : "" %>
+
