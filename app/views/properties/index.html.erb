@@ -3,7 +3,7 @@
 <div id="properties">
   <% @properties.each do |property| %>
     <%= image_tag property.image %>
-    <%= property.base_price %>
+    £<%= property.base_price %>
     <%= property.name %>
     <p>
       <%= link_to "Show this property", property %>

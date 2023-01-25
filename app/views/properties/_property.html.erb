@@ -1,8 +1,10 @@
 <div id="<%= dom_id property %>">
   <p>
-    <strong>Name:</strong>
+    <h2>Name:</h2>
     <%= property.name %>
   </p>
+
+  <p>Sleeps: <%= property.capacity %>
 
   <%= image_tag property.image %>
 
@@ -35,5 +37,19 @@
     <strong>Country:</strong>
     <%= property.country %>
   </p>
+
+  <h3>Rooms</h3>
+  <% property.facilities.where(is_room: true).each do |room| %>
+    <i class="fa-solid fa-<%= room.icon %>"></i>
+    <%= room.title %>
+    <%= room.capacity %>
+  <% end %>
+
+  <h3>Amenities</h3>
+  <% property.facilities.where(is_room: false).each do |amenity| %>
+    <i class="fa-solid fa-<%= amenity.icon %>"></i>
+    <%= amenity.title %>
+    <%= amenity.capacity %>
+  <% end %>
 
 </div>
