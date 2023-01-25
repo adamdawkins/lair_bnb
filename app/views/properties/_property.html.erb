@@ -5,8 +5,12 @@
   </h2>
 
   <p>
-    <strong>Average Rating:</strong>
-    <%= property.average_rating %> / 5
+    <% if property.reviews.count > 0 %>
+      <strong>Average Rating:</strong>
+      <%= property.average_rating %> / 5 from <%= property.reviews.count %> ratings
+    <% else %>
+      No ratings yet
+    <% end %>
   </p>
 
   <p>Sleeps: <%= property.capacity %>
