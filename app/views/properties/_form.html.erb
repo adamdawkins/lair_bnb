@@ -32,6 +32,16 @@
   </div>
 
   <div>
+    <%= form.label :image, style: "display: block" %>
+    <%= form.text_field :image %>
+  </div>
+
+  <div>
+    <%= form.label :base_price, style: "display: block" %>
+    <%= form.text_field :base_price %>
+  </div>
+
+  <div>
     <%= form.label :status, style: "display: block" %>
     <%= form.select(:status, ['Live']) %>
   </div>
