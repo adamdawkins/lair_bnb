@@ -1,7 +1,12 @@
 <div id="<%= dom_id property %>">
-  <p>
-    <h2>Name:</h2>
+  <h2>
+  Name:
     <%= property.name %>
+  </h2>
+
+  <p>
+    <strong>Average Rating:</strong>
+    <%= property.average_rating %> / 5
   </p>
 
   <p>Sleeps: <%= property.capacity %>
@@ -55,6 +60,13 @@
     <i class="fa-solid fa-<%= amenity.icon %>"></i>
     <%= amenity.title %>
     <%= amenity.capacity %>
+  <% end %>
+
+  <h3>Reviews</h3>
+  <% property.reviews.limit(5).each do |review| %>
+    <p><%= review.overall_rating %> / 5</p>
+    <p><%= review.body %></p>
+    <p>– <%= review.user.first_name %> <%= review.user.last_name[0, 1] %></p>
   <% end %>
 
 </div>

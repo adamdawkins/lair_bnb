@@ -1,8 +1,16 @@
 <%= render @property %>
 
 <div>
-  <%= link_to "Edit this property", edit_property_path(@property) %> |
+  <%
+=begin%>
+ <%= link_to "Edit this property", edit_property_path(@property) %> | 
+<%
+=end%>
   <%= link_to "Back to properties", properties_path %>
 
-  <%= button_to "Destroy this property", @property, method: :delete %>
+  <%
+=begin%>
+ <%= button_to "Destroy this property", @property, method: :delete %> 
+<%
+=end%>
 </div>

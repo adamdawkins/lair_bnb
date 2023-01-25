@@ -10,4 +10,5 @@ class User < ApplicationRecord
   validates :bio, presence: true, length: { maximum: 500 }
 
   has_many :properties
+  has_many :reviews
 end

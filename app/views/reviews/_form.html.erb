@@ -1,0 +1,37 @@
+<%= form_with model: [ @property, @property.reviews.build ] do |form| %>
+<!-- Put errors back in here -->
+
+  <div>
+    <%= form.label :body, style: "display: block" %>
+    <%= form.text_area :body %>
+  </div>
+
+  <div>
+    <%= form.label :cleanliness_rating, style: "display: block" %>
+    <%= form.number_field :cleanliness_rating %>
+  </div>
+
+  <div>
+    <%= form.label :host_rating, style: "display: block" %>
+    <%= form.number_field :host_rating %>
+  </div>
+
+  <div>
+    <%= form.label :location_rating, style: "display: block" %>
+    <%= form.number_field :location_rating %>
+  </div>
+
+  <div>
+    <%= form.label :check_in_rating, style: "display: block" %>
+    <%= form.number_field :check_in_rating %>
+  </div>
+
+  <div>
+    <%= form.label :value_rating, style: "display: block" %>
+    <%= form.number_field :value_rating %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

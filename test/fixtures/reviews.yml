@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  body: MyText
+  cleanliness_rating: 1
+  host_rating: 1
+  location_rating: 1
+  check_in_rating: 1
+  value_rating: 1
+  user: one
+
+two:
+  body: MyText
+  cleanliness_rating: 1
+  host_rating: 1
+  location_rating: 1
+  check_in_rating: 1
+  value_rating: 1
+  user: two
