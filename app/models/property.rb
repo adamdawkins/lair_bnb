@@ -2,6 +2,7 @@ class Property < ApplicationRecord
   belongs_to :user
   has_many :facilities
   has_many :reviews
+  has_many :bookings
 
   validates :name, presence: true, length: { maximum: 140 }
   validates :description, presence: true, length: { maximum: 1000 }
