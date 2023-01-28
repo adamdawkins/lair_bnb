@@ -1,16 +1,18 @@
-<h1>Properties</h1>
+<p class="mb-6 text-4xl font-bold text-slate-500">Where evil geniuses book their breaks</p>
 
-<div id="properties">
+<div id="properties" class="grid grid-cols-4 gap-4">
   <% @properties.each do |property| %>
     <% if property.available?(params[:sd], params[:ed]) %>
-      <%= image_tag property.image %>
-      £<%= property.base_price %>
-      <%= property.name %>
-      <p>
-        <%= link_to "Show this property", property %>
-      </p>
+        <%= link_to (property), class:"" do %>
+            <%= image_tag property.image, class:"rounded-lg mb-4" %>
+            <div class="flex justify-between items-center">
+              <h1 class="font-bold"><%= property.name %></h2>
+              <% if property.reviews.count > 0 %>
+                <p class="flex items-center"><i class="fa-solid fa-star text-xs mr-1"></i> <%= property.average_rating %></p> 
+              <% end %>
+            </div>
+            <p class="text-sm text-slate-400">£<%= property.base_price%> per night</p>
+        <% end %>
       <% end %>
   <% end %>
 </div>
-
-<%= link_to "New property", new_property_path %>
