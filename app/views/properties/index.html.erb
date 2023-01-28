@@ -2,7 +2,7 @@
 
 <div id="properties">
   <% @properties.each do |property| %>
-    <% if property.available?(params[:s], params[:e]) %>
+    <% if property.available?(params[:sd], params[:ed]) %>
       <%= image_tag property.image %>
       £<%= property.base_price %>
       <%= property.name %>

@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,700;0,800;1,400;1,700;1,800&display=swap" rel="stylesheet">
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %> 
 
@@ -14,26 +18,41 @@
     <script src="https://kit.fontawesome.com/5f669c3761.js" crossorigin="anonymous"></script>
   </head>
 
-  <body class="">
+  <body class="bg-slate-100 text-slate-700">
 
-    <header class="w-full border-b-2 border-b-slate-300 py-2">
-    <h1 class="text-blue-400"><%= link_to("LairBnB", root_path) %></h1>
-    
-    <ul>
-      <% if user_signed_in? %>
-        <li><%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete } %></li>
-      <% else %>
-        <li><%= link_to 'Register', new_user_registration_path %> or <%= link_to 'Sign in', new_user_session_path %></li>
-      <% end %>
-    </ul>
-  </header>
+    <header class="w-full border-b border-b-slate-300 bg-white">
+        <div class="container mx-auto flex justify-between py-4 items-center">
+          <h1 class="text-purple-700 text-xl font-bold"><i class="fa-solid fa-igloo mr-3"></i><%= link_to("lairbnb", root_path) %></h1>
+
+          <%= form_with url: "/", method: :get, class:"border border-slate-400 rounded-full p-2 flex items-center text-slate-400 shadow" do |form| %>
+              <%= form.date_field :sd, class:"text-sm border-0 rounded-full text-slate-700 placeholder:text-slate-400", value:params[:sd] %>
+              |
+              <%= form.date_field :ed, class:"text-sm border-0 rounded-full text-slate-700 placeholder:text-slate-400", value:params[:ed] %>
+              |
+              <%= form.text_field :country, class:"text-sm border-0 rounded-full font-bold text-slate-700 placeholder:text-slate-400", placeholder: "Country" %>
+              <%= button_tag type: 'submit', class:"ml-3 w-8 h-8 bg-purple-500 text-white rounded-full cursor-pointer", value: "search" do %>
+                <i class="fa-solid fa-magnifying-glass"></i>
+              <% end %>
+          <% end %>
+      
+          <ul class="text-sm font-bold flex gap-6">
+            <% if user_signed_in? %>
+              <li><%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete } %></li>
+            <% else %>
+              <li><%= link_to 'Register', new_user_registration_path, class: "hover:underline hover:text-purple-500" %></li>
+              <li><%= link_to 'Sign in', new_user_session_path, class: "bg-purple-500 rounded-full px-3 py-2 text-white hover:bg-purple-600" %></li>
+            <% end %>
+          </ul>
+      </div>
+    </header>
 
   <% if notice %>
   <div>
     <%= notice %>
   <div>
   <% end %>
-
-    <%= yield %>
+    <section class="container mx-auto">
+      <%= yield %>
+    </div>
   </body>
 </html>
