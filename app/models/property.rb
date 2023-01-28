@@ -20,6 +20,19 @@ class Property < ApplicationRecord
     self.reviews.pluck(Arel.sql("(SUM(cleanliness_rating) + SUM(host_rating) + SUM(location_rating) + SUM(check_in_rating) + SUM(value_rating)) / COUNT(*)")).first / 5
   end
 
+  def self.search(search)
+    if search
+      country = Property.find_by(country: search)
+      if country
+        self.where(country: country.country)
+      else
+        @properties = Property.all
+      end
+    else
+      @properties = Property.all
+    end
+  end
+
   def available?(start_date, end_date)
     window_start = self.bookings.where('end_date < ?', start_date).last
     if (window_start)
