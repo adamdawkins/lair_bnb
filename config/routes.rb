@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :bookmarks
   resources :properties do
     resources :facilities
     resources :reviews

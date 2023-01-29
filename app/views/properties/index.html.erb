@@ -3,7 +3,9 @@
 <div id="properties" class="grid grid-cols-4 gap-4">
   <% @properties.each do |property| %>
     <% if property.available?(params[:sd], params[:ed]) %>
-        <%= link_to (property), class:"" do %>
+        <%= link_to (property), class:"relative" do %>
+            <i class="fa-solid fa-heart absolute top-4 text-2xl text-black opacity-10 right-4"></i>
+            <i class="fa-regular fa-heart absolute text-2xl text-white right-4 top-4"></i>
             <%= image_tag property.image, class:"rounded-lg mb-4" %>
             <div class="flex justify-between items-center">
               <h1 class="font-bold"><%= property.name %></h2>
@@ -15,4 +17,5 @@
         <% end %>
       <% end %>
   <% end %>
+  
 </div>

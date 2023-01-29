@@ -33,6 +33,10 @@ class Property < ApplicationRecord
     end
   end
 
+  def bookmarked?
+    # is this where this exists?
+  end
+
   def available?(start_date, end_date)
     window_start = self.bookings.where('end_date < ?', start_date).last
     if (window_start)

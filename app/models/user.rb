@@ -12,4 +12,5 @@ class User < ApplicationRecord
   has_many :properties
   has_many :reviews
   has_many :bookings
+  has_many :bookmarks
 end
