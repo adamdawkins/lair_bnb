@@ -23,7 +23,8 @@
         <% end %>
 
         <%= link_to property, class:"" do %>
-          <%= image_tag property.image, class:"rounded-lg mb-4" %>
+          <div class="rounded-lg mb-4 w-full h-64 bg-cover bg-center" style="background-image:url('<%= property.images.first.url %>')">
+          </div>
         <% end %>
         <div class="flex justify-between items-center">
           <h1 class="font-bold"><%= link_to property.name, url_for(controller: "properties", action: "show", id: property.id, sd: params[:sd], ed: params[:ed]) %></h1>
