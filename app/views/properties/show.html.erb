@@ -1,16 +1,173 @@
-<%= render @property %>
+<div id="">
+  <h1 class="text-2xl font-bold mb-2">
+    <%= @property.name %>
+  </h1>
 
-<div>
-  <%
-=begin%>
- <%= link_to "Edit this property", edit_property_path(@property) %> | 
-<%
-=end%>
-  <%= link_to "Back to properties", properties_path %>
+  <p class="text-sm font-bold mb-4">
+    <% if @property.reviews.count > 0 %>
+      <%= pluralize(@property.reviews.count, 'review') %>
+    <% else %>
+      No ratings yet
+    <% end %>
+    &middot;
+    <%= @property.country %>
+  </p>
 
-  <%
-=begin%>
- <%= button_to "Destroy this property", @property, method: :delete %> 
-<%
-=end%>
+  <div class="flex gap-4 mb-4">
+    <%= image_tag @property.image, class:"rounded-lg col-span-2" %>
+    <div class="gap-4 grid-cols-2 grid flex-wrap flex-row w-full">
+      <div class="bg-slate-200 rounded-lg grow"></div>
+      <div class="bg-slate-200 rounded-lg grow"></div>
+      <div class="bg-slate-200 rounded-lg grow"></div>
+      <div class="bg-slate-200 rounded-lg grow"></div>
+    </div>
+  </div>
+
+  <div class="flex gap-8">
+    <div class="w-2/3">
+      <div class="border-b border-b-slate-400 py-4 mb-4">
+        <div class="flex w-full justify-between">
+          <div class="">
+            <h2 class="text-2xl font-bold mb-1">Lair hosted by <%= @property.user.first_name %> <%= @property.user.last_name %></h2>
+            <p><%= pluralize(@property.capacity, 'guest') %> &middot; <%= pluralize(@property.facilities.where('is_room = true').count, 'bedroom') %>
+          </div>
+          
+          <%= image_tag @property.user.profile, class:"rounded-full w-14 mb-4" %>
+
+        </div>
+      </div>
+
+      <p class="mb-4"><%= @property.description %></p>
+
+      <hr class="border-b border-b-slate-400 mb-10">
+
+      <h3 class="text-lg font-bold mb-4">Where you'll sleep</h3>
+      <div class="flex gap-4 mb-10">
+        <% @property.facilities.where(is_room: true).each do |room| %>
+          <div class="border border-slate-500 rounded-lg p-4 w-1/4">
+            <i class="fa-solid fa-<%= room.icon %> mb-3"></i>
+            <p><%= room.title %></p>
+            <p class="text-sm">Sleeps <%= room.capacity %></p>
+          </div>
+        <% end %>
+      </div>
+
+      <hr class="border-b border-b-slate-400 mb-10">
+
+      <h3 class="text-lg font-bold mb-4">What this place offers</h3>
+      <ul class="columns-2 mb-8">
+      <% @property.facilities.where(is_room: false).each do |amenity| %>
+        <li class="text-lg">
+        <i class="fa-solid fa-<%= amenity.icon %> mr-4"></i>
+        <%= amenity.title %>
+        </li>
+      <% end %>
+      </ul>
+
+      <%= link_to '#', class:"border border-slate-800 px-3 py-2 font-bold rounded-lg hover:bg-slate-200" do %>
+        See all <%=@property.facilities.where(is_room: false).count%> amenities
+      <% end %>
+
+    </div>
+
+    <div class="w-1/3 mt-4">
+      <div class="mb-4 bg-white shadow-md border-slate-300 border rounded-xl p-8">
+        <div class="flex justify-between items-center mb-4">
+          <p class="text-lg font-bold">£<%= @property.base_price %> <span class="text-base text-slate-400 font-normal">night</span></p>
+          <p class="text-sm underline font-bold text-slate-300"><% if @property.reviews.count > 0 %>
+            <%= pluralize(@property.reviews.count, 'review') %>
+          <% else %>
+            No ratings yet
+          <% end %></p>
+        </div>
+
+        <%= form_with url: "/search", method: :get, class:"mb-4" do |form| %>
+          <div class="rounded-lg border-slate-700 border w-full mb-4">
+            <div class="border-b border-b-slate-700 flex">
+              <div class="border-r border-r-slate-700 w-1/2 p-2">
+                <%= form.label :start_date, "Check in", class:"uppercase text-xs font-bold" %><br>
+                <%= form.date_field :start_date, class:"border-0 text-xs p-0" %>
+              </div>
+              <div class="w-1/2 p-2">
+                <%= form.label :end_date, "Check out", class:"uppercase text-xs font-bold" %><br>
+                <%= form.date_field :end_date, class:"border-0 text-xs p-0" %>
+              </div>
+            </div>
+            <div class="p-2 text-sm">
+              <%= form.label :guests, "Guests", class:"uppercase font-bold text-xs" %><br>
+              <%= form.number_field :guests, class:"border-0 p-0 w-6", value:1 %> guest
+            </div>
+          </div>
+
+          <%= form.submit "Reserve", class:"bg-purple-500 p-3 w-full text-md text-white font-bold rounded-lg cursor-pointer" %>
+        <% end %>
+
+        <p class="w-full text-center text-sm text-slate-400 mb-10">You won't be charged yet</p>
+
+        <div class="flex justify-between mb-2">
+          <div class="">£<%= @property.base_price %> x 10</div>
+          <div>£<%= @property.base_price * 10 %></div>
+        </div>
+
+        <div class="flex justify-between mb-3">
+          <div class="underline">Cleaning Fee</div>
+          <div>£<%= @property.cleaning_fee %></div>
+        </div>
+
+        <hr class="border-b border-b-slate-400 mb-3">
+
+        <div class="flex justify-between font-bold">
+          <div class="">Total</div>
+          <div>£<%= 12345 %></div>
+        </div>
+
+      </div>
+
+      <p class="w-full text-center text-slate-400"><i class="fa-solid fa-flag mr-3 mb-4"></i>Report this listing</p>
+
+    </div>
+  </div>
+
+  <hr class="border-b border-b-slate-400 my-10">
+
+  <h3 class="text-lg font-bold mb-4"><%= pluralize(@property.reviews.count, 'review') %></h3>
+    <% @property.reviews.limit(5).each do |review| %>
+      <div class="w-1/3">
+        <div class="flex">
+
+          <%= image_tag review.user.profile, class:"rounded-full w-10 mb-4 mr-4" %>
+
+          <div>
+            <p><%= review.user.first_name %> <%= review.user.last_name[0, 1] %> rated this <%= review.overall_rating %> / 5</p>
+            <p class="text-sm text-slate-300"><%= review.created_at.strftime("%B %Y") %></p>
+          </div>
+        </div>
+        <p class="text-sm"><%= review.body %></p>
+     </div>
+
+    <% end %>
+
+  <hr class="border-b border-b-slate-400 my-10">
+
+  <h3 class="text-lg font-bold mb-4">Where you'll be</h3>
+  <div id='map' class="rounded-xl" style='width: 100%; height: 500px;'></div>
+
+  <hr class="border-b border-b-slate-400 my-10">
+
 </div>
+
+  <script>
+  mapboxgl.accessToken = 'pk.eyJ1IjoiaHV3dCIsImEiOiJjazg0b2E2bGcwM2NhM2dxaTUyNmhzdng5In0.BV4iA3P5GzQg2FbNpf2aZA';
+  const map = new mapboxgl.Map({
+      container: 'map', // container ID
+      style: 'mapbox://styles/mapbox/streets-v12', // style URL
+      center: [<%= @property.lon %>, <%= @property.lat %>], // starting position [lng, lat]
+      zoom: 5, // starting zoom
+  });
+
+  var marker = new mapboxgl.Marker({
+      draggable: true
+  })
+  .setLngLat([<%= @property.lon %>, <%= @property.lat %>])
+  .addTo(map);
+  </script>
