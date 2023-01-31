@@ -34,6 +34,10 @@ class Property < ApplicationRecord
     end
   end
 
+  def total_cost(sd, ed)
+    ((ed.to_date - sd.to_date).to_i + 1) * self.base_price
+  end
+
   def bookmarked?(user_id, property_id)
     self.bookmarks.where(user_id: user_id, property_id: property_id).any?
   end

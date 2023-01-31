@@ -81,45 +81,7 @@
           <% end %></p>
         </div>
 
-        <%= form_with url: "/search", method: :get, class:"mb-4" do |form| %>
-          <div class="rounded-lg border-slate-700 border w-full mb-4">
-            <div class="border-b border-b-slate-700 flex">
-              <div class="border-r border-r-slate-700 w-1/2 p-2">
-                <%= form.label :start_date, "Check in", class:"uppercase text-xs font-bold" %><br>
-                <%= form.date_field :start_date, class:"border-0 text-xs p-0" %>
-              </div>
-              <div class="w-1/2 p-2">
-                <%= form.label :end_date, "Check out", class:"uppercase text-xs font-bold" %><br>
-                <%= form.date_field :end_date, class:"border-0 text-xs p-0" %>
-              </div>
-            </div>
-            <div class="p-2 text-sm">
-              <%= form.label :guests, "Guests", class:"uppercase font-bold text-xs" %><br>
-              <%= form.number_field :guests, class:"border-0 p-0 w-6", value:1 %> guest
-            </div>
-          </div>
-
-          <%= form.submit "Reserve", class:"bg-purple-500 p-3 w-full text-md text-white font-bold rounded-lg cursor-pointer" %>
-        <% end %>
-
-        <p class="w-full text-center text-sm text-slate-400 mb-10">You won't be charged yet</p>
-
-        <div class="flex justify-between mb-2">
-          <div class="">£<%= @property.base_price %> x 10</div>
-          <div>£<%= @property.base_price * 10 %></div>
-        </div>
-
-        <div class="flex justify-between mb-3">
-          <div class="underline">Cleaning Fee</div>
-          <div>£<%= @property.cleaning_fee %></div>
-        </div>
-
-        <hr class="border-b border-b-slate-400 mb-3">
-
-        <div class="flex justify-between font-bold">
-          <div class="">Total</div>
-          <div>£<%= 12345 %></div>
-        </div>
+        <%= render 'bookings/form' %>
 
       </div>
 

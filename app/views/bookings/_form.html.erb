@@ -1,27 +1,50 @@
-<%= form_with(model: [@property, @property.bookings.build]) do |form| %>
-  <% if @property.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(booking.errors.count, "error") %> prohibited this booking from being saved:</h2>
-
-      <ul>
-        <% booking.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+<%= form_with url: "#", method: :get, class:"mb-4" do |form| %>
+  <div class="rounded-lg border-slate-700 border w-full mb-4">
+    <div class="border-b border-b-slate-700 flex">
+      <div class="border-r border-r-slate-700 w-1/2 p-2">
+        <%= form.label :start_date, "Check in", class:"uppercase text-xs font-bold" %><br>
+        <%= form.date_field :start_date, value:params[:sd], class:"border-0 text-xs p-0" %>
+      </div>
+      <div class="w-1/2 p-2">
+        <%= form.label :end_date, "Check out", class:"uppercase text-xs font-bold" %><br>
+        <%= form.date_field :end_date, class:"border-0 text-xs p-0", value:params[:ed] %>
+      </div>
     </div>
+    <div class="p-2 text-sm">
+      <%= form.label :guests, "Guests", class:"uppercase font-bold text-xs" %><br>
+      <%= form.text_field :guests, class:"border-0 p-0 w-6", value:1 %> guest
+    </div>
+  </div>
+
+  <% if (@property.available?(params[:sd], params[:ed]))%>
+    <%= form.submit "Reserve", class:"bg-purple-500 p-3 w-full text-md text-white font-bold rounded-lg cursor-pointer mb-4" %>
+
+    <p class="w-full text-center text-sm text-slate-400 mb-10">You won't be charged yet</p>
+
+    <div class="flex justify-between mb-2">
+          <div class="">£<%= number_with_precision(@property.base_price, :precision => 2, :delimiter => ',') %> <%= params[:ed] && params[:sd] ? 'x ' + (params[:ed].to_date - params[:sd].to_date).to_i.to_s : '' %></div>
+          <% if params[:ed] && params[:sd] %>
+            <div>£<%= number_with_precision(@property.base_price * (params[:ed].to_date - params[:sd].to_date).to_i, :precision => 2, :delimiter => ',') %></div>
+          <% else %>
+            <div class="text-sm text-slate-400">£<%= number_with_precision(@property.base_price, :precision => 2, :delimiter => ',') %> per night</div>
+          <% end %>
+        </div>
+
+        <div class="flex justify-between mb-3">
+          <div class="underline">Cleaning Fee</div>
+          <div>£<%= number_with_precision(@property.cleaning_fee, :precision => 2, :delimiter => ',') %></div>
+        </div>
+        
+        <% if params[:ed] && params[:sd] %>
+          <hr class="border-b border-b-slate-400 mb-3">
+
+          <div class="flex justify-between font-bold">
+            <div class="">Total</div>
+            <div>£<%= number_with_precision(((params[:ed].to_date - params[:sd].to_date).to_i * @property.base_price) + @property.cleaning_fee, :precision => 2, :delimiter => ',') %></div>
+          </div>
+        <% end %>
+  <% else %>
+    <p class="text-red-500 w-full text-sm text-center">This listing isn't available for your selected dates</p>
   <% end %>
-
-  <div>
-    <%= form.label :start_date, style: "display: block" %>
-    <%= form.date_field :start_date %>
-  </div>
-
-  <div>
-    <%= form.label :end_date, style: "display: block" %>
-    <%= form.date_field :end_date %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
 <% end %>
+

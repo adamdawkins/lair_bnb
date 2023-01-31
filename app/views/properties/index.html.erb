@@ -15,7 +15,6 @@
 
           <%= form_for 'property_bookmark', method: :post, class:"absolute w-full" do |f| %>
             <%= hidden_field_tag '_method', 'delete' %>
-
             <%= button_tag(type: 'submit') do %>
               <i class="fa-solid fa-heart text-2xl text-white opacity-100 absolute top-4 right-4"></i>
               <i class="fa-regular fa-heart text-2xl text-white absolute top-4 right-4"></i>
@@ -23,16 +22,22 @@
           <% end %>
         <% end %>
 
-        <%= link_to (property), class:"" do %>
+        <%= link_to property, class:"" do %>
           <%= image_tag property.image, class:"rounded-lg mb-4" %>
         <% end %>
         <div class="flex justify-between items-center">
-          <%= link_to (property), class:"" do %><h1 class="font-bold"><%= property.name %></h1><% end %>
+          <h1 class="font-bold"><%= link_to property.name, url_for(controller: "properties", action: "show", id: property.id, sd: params[:sd], ed: params[:ed]) %></h1>
+
           <% if property.reviews.count > 0 %>
             <p class="flex items-center"><i class="fa-solid fa-star text-xs mr-1"></i> <%= property.average_rating %></p> 
           <% end %>
         </div>
-        <p class="text-sm text-slate-400">£<%= property.base_price%> per night</p>
+        <% if params[:sd] && params[:ed] %>
+          <p class="text-sm text-slate-400">£<%= number_with_precision(property.total_cost(params[:sd], params[:ed]), :precision => 2, :delimiter => ',') %></p>
+        <% else %>
+          <p class="text-sm text-slate-400">£<%= number_with_precision(property.base_price, :precision => 2, :delimiter => ',') %> per night</p>
+        <% end %>
+        
       </div>
       
     <% end %>
