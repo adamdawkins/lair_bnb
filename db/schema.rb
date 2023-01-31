@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_29_194015) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_31_193149) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,6 +45,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_29_194015) do
     t.index ["property_id"], name: "index_facilities_on_property_id"
   end
 
+  create_table "images", force: :cascade do |t|
+    t.bigint "property_id", null: false
+    t.string "url"
+    t.integer "order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["property_id"], name: "index_images_on_property_id"
+  end
+
   create_table "properties", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -55,7 +64,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_29_194015) do
     t.string "country"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "image"
     t.decimal "base_price"
     t.decimal "cleaning_fee"
     t.index ["user_id"], name: "index_properties_on_user_id"
@@ -98,6 +106,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_29_194015) do
   add_foreign_key "bookmarks", "properties"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "facilities", "properties"
+  add_foreign_key "images", "properties"
   add_foreign_key "properties", "users"
   add_foreign_key "reviews", "properties"
   add_foreign_key "reviews", "users"

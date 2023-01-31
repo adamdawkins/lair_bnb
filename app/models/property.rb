@@ -4,6 +4,7 @@ class Property < ApplicationRecord
   has_many :reviews
   has_many :bookings
   has_many :bookmarks
+  has_many :images
 
   validates :name, presence: true, length: { maximum: 140 }
   validates :description, presence: true, length: { maximum: 1000 }

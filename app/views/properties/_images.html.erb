@@ -1,0 +1,8 @@
+  <div class="flex gap-4 mb-4">
+    <div class="bg-slate-200 rounded-lg h-[400px] w-full bg-cover bg-center" style="background-image: url('<%= @property.images.first.url %>')"></div>
+    <div class="gap-4 grid-cols-2 grid flex-wrap flex-row w-full">
+      <% @property.images.drop(1).each do |i| %>
+        <div class="bg-slate-200 rounded-lg grow bg-cover bg-center" style="background-image: url('<%= i.url %>')"></div>
+      <% end %>
+    </div>
+  </div>

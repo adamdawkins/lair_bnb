@@ -13,15 +13,7 @@
     <%= @property.country %>
   </p>
 
-  <div class="flex gap-4 mb-4">
-    <%= image_tag @property.image, class:"rounded-lg col-span-2" %>
-    <div class="gap-4 grid-cols-2 grid flex-wrap flex-row w-full">
-      <div class="bg-slate-200 rounded-lg grow"></div>
-      <div class="bg-slate-200 rounded-lg grow"></div>
-      <div class="bg-slate-200 rounded-lg grow"></div>
-      <div class="bg-slate-200 rounded-lg grow"></div>
-    </div>
-  </div>
+  <%= render 'images' %>
 
   <div class="flex gap-8">
     <div class="w-2/3">
