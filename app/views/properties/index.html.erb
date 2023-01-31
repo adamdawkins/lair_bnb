@@ -3,19 +3,39 @@
 <div id="properties" class="grid grid-cols-4 gap-4">
   <% @properties.each do |property| %>
     <% if property.available?(params[:sd], params[:ed]) %>
-        <%= link_to (property), class:"relative" do %>
-            <i class="fa-solid fa-heart absolute top-4 text-2xl text-black opacity-10 right-4"></i>
-            <i class="fa-regular fa-heart absolute text-2xl text-white right-4 top-4"></i>
-            <%= image_tag property.image, class:"rounded-lg mb-4" %>
-            <div class="flex justify-between items-center">
-              <h1 class="font-bold"><%= property.name %></h2>
-              <% if property.reviews.count > 0 %>
-                <p class="flex items-center"><i class="fa-solid fa-star text-xs mr-1"></i> <%= property.average_rating %></p> 
-              <% end %>
-            </div>
-            <p class="text-sm text-slate-400">£<%= property.base_price%> per night</p>
+      <div class="relative">
+        <% if(!property.bookmarked?(current_user.id, property.id)) %>
+          <%= form_with model: [property, property.bookmarks.build], method: :post, class:"absolute w-full" do |form| %>
+            <%= button_tag(type: 'submit') do %>
+              <i class="fa-solid fa-heart text-2xl text-black opacity-20 absolute top-4 right-4"></i>
+              <i class="fa-regular fa-heart text-2xl text-white absolute top-4 right-4"></i>
+            <% end %>
+          <% end %>
+        <% else %>
+
+          <%= form_for 'property_bookmark', method: :post, class:"absolute w-full" do |f| %>
+            <%= hidden_field_tag '_method', 'delete' %>
+
+            <%= button_tag(type: 'submit') do %>
+              <i class="fa-solid fa-heart text-2xl text-white opacity-100 absolute top-4 right-4"></i>
+              <i class="fa-regular fa-heart text-2xl text-white absolute top-4 right-4"></i>
+            <% end %>
+          <% end %>
         <% end %>
-      <% end %>
+
+        <%= link_to (property), class:"" do %>
+          <%= image_tag property.image, class:"rounded-lg mb-4" %>
+        <% end %>
+        <div class="flex justify-between items-center">
+          <%= link_to (property), class:"" do %><h1 class="font-bold"><%= property.name %></h1><% end %>
+          <% if property.reviews.count > 0 %>
+            <p class="flex items-center"><i class="fa-solid fa-star text-xs mr-1"></i> <%= property.average_rating %></p> 
+          <% end %>
+        </div>
+        <p class="text-sm text-slate-400">£<%= property.base_price%> per night</p>
+      </div>
+      
+    <% end %>
   <% end %>
-  
+
 </div>

@@ -3,6 +3,7 @@ class Property < ApplicationRecord
   has_many :facilities
   has_many :reviews
   has_many :bookings
+  has_many :bookmarks
 
   validates :name, presence: true, length: { maximum: 140 }
   validates :description, presence: true, length: { maximum: 1000 }
@@ -33,8 +34,8 @@ class Property < ApplicationRecord
     end
   end
 
-  def bookmarked?
-    # is this where this exists?
+  def bookmarked?(user_id, property_id)
+    self.bookmarks.where(user_id: user_id, property_id: property_id).any?
   end
 
   def available?(start_date, end_date)

@@ -1,49 +1,21 @@
 class BookmarksController < ApplicationController
   before_action :set_bookmark, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
   # GET /bookmarks or /bookmarks.json
   def index
     @bookmarks = Bookmark.all
   end
 
-  # GET /bookmarks/1 or /bookmarks/1.json
-  def show
-  end
-
-  # GET /bookmarks/new
-  def new
-    @bookmark = Bookmark.new
-  end
-
-  # GET /bookmarks/1/edit
-  def edit
-  end
-
   # POST /bookmarks or /bookmarks.json
   def create
-    @bookmark = Bookmark.new(bookmark_params)
+    @bookmark = Bookmark.new()
+    @bookmark.user_id = current_user.id
+    @bookmark.property_id = params[:property_id]
 
-    respond_to do |format|
-      if @bookmark.save
-        format.html { redirect_to bookmark_url(@bookmark), notice: "Bookmark was successfully created." }
-        format.json { render :show, status: :created, location: @bookmark }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @bookmark.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /bookmarks/1 or /bookmarks/1.json
-  def update
-    respond_to do |format|
-      if @bookmark.update(bookmark_params)
-        format.html { redirect_to bookmark_url(@bookmark), notice: "Bookmark was successfully updated." }
-        format.json { render :show, status: :ok, location: @bookmark }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @bookmark.errors, status: :unprocessable_entity }
-      end
+    if @bookmark.save
+      flash[:notice] = 'You bookmarked ' + @bookmark.property.name
+      redirect_back(fallback_location: root_path)
     end
   end
 
@@ -65,6 +37,6 @@ class BookmarksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def bookmark_params
-      params.require(:bookmark).permit(:user_id, :property.references)
+      params.require(:bookmark).permit(:property_id)
     end
 end
