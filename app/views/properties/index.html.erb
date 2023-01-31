@@ -22,7 +22,7 @@
           <% end %>
         <% end %>
 
-        <%= link_to property, class:"" do %>
+        <%= link_to url_for(controller: "properties", action: "show", id: property.id, sd: params[:sd], ed: params[:ed]) do %>
           <div class="rounded-lg mb-4 w-full h-64 bg-cover bg-center" style="background-image:url('<%= property.images.first.url %>')">
           </div>
         <% end %>
